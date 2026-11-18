@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Đăng nhập · Quản lý container</title>
+  <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/api.js" defer></script>
+  <script src="/js/login.js" defer></script>
+</head>
+<body>
+<div class="auth-page">
+  <aside class="auth-hero">
+    <div>
+      <div class="brand"><img src="/img/logo.svg" alt=""> Quản lý container</div>
+      <h1>Theo dõi container trong bãi, gọn trong một màn hình.</h1>
+      <p>Nhập bãi, vị trí Khối-Bay-Hàng-Tầng, kiểm hóa và xuất bãi. Số container được kiểm tra theo chuẩn ISO&nbsp;6346.</p>
+      <img class="stack" src="/img/yard.svg" alt="">
+    </div>
+    <div class="hero-foot">Bài cá nhân 2 · Triển khai ứng dụng web trên VPS<br>Lê Hữu Anh Tài · MSSV 2424802010066</div>
+  </aside>
+
+  <main class="auth-main">
+    <div class="auth-card">
+      <h2 id="title">Đăng nhập</h2>
+      <p class="sub" id="subtitle">Dùng tài khoản đã đăng ký để vào hệ thống.</p>
+
+      <div class="tabs" role="tablist">
+        <button type="button" class="tab active" id="tab-login" role="tab" aria-selected="true">Đăng nhập</button>
+        <button type="button" class="tab" id="tab-register" role="tab" aria-selected="false">Đăng ký</button>
+      </div>
+
+      <form id="form-login" autocomplete="on">
+        <div id="login-msg" class="hidden"></div>
+        <div class="field">
+          <label for="l-username">Tên đăng nhập</label>
+          <input id="l-username" name="username" required maxlength="32" autocomplete="username" autofocus>
+        </div>
+        <div class="field">
+          <label for="l-password">Mật khẩu</label>
+          <input id="l-password" name="password" type="password" required maxlength="72" autocomplete="current-password">
+        </div>
+        <button class="btn btn-primary" type="submit">Đăng nhập</button>
+      </form>
+
+      <form id="form-register" class="hidden" autocomplete="off">
+        <div id="register-msg" class="hidden"></div>
+        <div class="field">
+          <label for="r-full-name">Họ và tên <span class="req">*</span></label>
+          <input id="r-full-name" name="full_name" required minlength="2" maxlength="100" autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="r-username">Tên đăng nhập <span class="req">*</span></label>
+          <input id="r-username" name="username" required minlength="3" maxlength="32" pattern="[a-z0-9_.]+"
+                 autocomplete="username">
+          <span class="hint">3–32 ký tự: chữ thường không dấu, số, dấu chấm, gạch dưới.</span>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="r-password">Mật khẩu <span class="req">*</span></label>
+            <input id="r-password" name="password" type="password" required minlength="8" maxlength="72"
+                   autocomplete="new-password">
+          </div>
+          <div class="field">
+            <label for="r-password2">Nhập lại <span class="req">*</span></label>
+            <input id="r-password2" type="password" required minlength="8" maxlength="72" autocomplete="new-password">
+          </div>
+        </div>
+        <p class="hint muted">Mật khẩu ≥ 8 ký tự, có cả chữ và số. Máy chủ chỉ lưu bản băm bcrypt.</p>
+        <button class="btn btn-primary" type="submit">Tạo tài khoản</button>
+      </form>
+
+      <p class="auth-foot">Máy chủ: <span id="host" class="mono">…</span></p>
+    </div>
+  </main>
+</div>
+<div id="toasts" aria-live="polite"></div>
+</body>
+</html>

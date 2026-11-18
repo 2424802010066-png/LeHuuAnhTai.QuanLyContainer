@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="Logo quản lý container">
+  <rect width="48" height="48" rx="11" fill="#e8772e"/>
+  <rect x="9" y="25" width="30" height="13" rx="1.5" fill="#fff"/>
+  <rect x="14" y="11" width="22" height="12" rx="1.5" fill="#ffd9bf"/>
+  <g stroke="#e8772e" stroke-width="1.6">
+    <path d="M15 27.5v8M19 27.5v8M23 27.5v8M27 27.5v8M31 27.5v8M35 27.5v8"/>
+    <path d="M19 13.5v7M23 13.5v7M27 13.5v7M31 13.5v7"/>
+  </g>
+</svg>

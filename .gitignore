@@ -1,0 +1,22 @@
+# Bí mật - KHÔNG BAO GIỜ commit
+.env
+*.env
+!.env.example
+*.pem
+*.key
+id_*
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Hệ điều hành / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 250" role="img" aria-label="Bãi container">
+  <g opacity=".95">
+    <rect x="10" y="170" width="140" height="56" rx="3" fill="#e8772e"/>
+    <rect x="156" y="170" width="140" height="56" rx="3" fill="#2f6fae"/>
+    <rect x="302" y="170" width="140" height="56" rx="3" fill="#138a7e"/>
+    <rect x="70" y="108" width="140" height="56" rx="3" fill="#d9e4f2"/>
+    <rect x="216" y="108" width="140" height="56" rx="3" fill="#e8772e"/>
+    <rect x="140" y="46" width="140" height="56" rx="3" fill="#6b8bb3"/>
+  </g>
+  <g stroke="#0b1f36" stroke-opacity=".25" stroke-width="3">
+    <path d="M30 176v44M50 176v44M70 176v44M90 176v44M110 176v44M130 176v44"/>
+    <path d="M176 176v44M196 176v44M216 176v44M236 176v44M256 176v44M276 176v44"/>
+    <path d="M322 176v44M342 176v44M362 176v44M382 176v44M402 176v44M422 176v44"/>
+    <path d="M90 114v44M110 114v44M130 114v44M150 114v44M170 114v44M190 114v44"/>
+    <path d="M236 114v44M256 114v44M276 114v44M296 114v44M316 114v44M336 114v44"/>
+    <path d="M160 52v44M180 52v44M200 52v44M220 52v44M240 52v44M260 52v44"/>
+  </g>
+  <rect x="0" y="232" width="460" height="6" rx="3" fill="#ffffff" fill-opacity=".25"/>
+</svg>

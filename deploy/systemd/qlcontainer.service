@@ -1,0 +1,44 @@
+# Dịch vụ systemd chạy backend FastAPI bằng Uvicorn.
+# - Tự khởi động cùng VPS (WantedBy=multi-user.target), tự chạy lại khi lỗi (Restart=on-failure)
+# - CHỈ lắng nghe 127.0.0.1:8000: từ ngoài vào bắt buộc phải qua Nginx
+# - Chạy bằng tài khoản hệ thống riêng "qlcontainer" (không phải root), có các tùy chọn sandbox của systemd
+# Đặt tại /etc/systemd/system/qlcontainer.service
+[Unit]
+Description=Quan ly container - backend FastAPI (Uvicorn)
+After=network-online.target postgresql.service
+Wants=network-online.target
+Requires=postgresql.service
+
+[Service]
+Type=simple
+User=qlcontainer
+Group=qlcontainer
+WorkingDirectory=/opt/qlcontainer/backend
+EnvironmentFile=/opt/qlcontainer/.env
+ExecStart=/opt/qlcontainer/venv/bin/uvicorn app.main:app \
+    --host 127.0.0.1 --port 8000 --workers 2 \
+    --proxy-headers --forwarded-allow-ips 127.0.0.1 \
+    --no-server-header --no-access-log
+Restart=on-failure
+RestartSec=3
+
+# Tăng cường an toàn (sandbox)
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+ProtectClock=true
+ProtectHostname=true
+RestrictSUIDSGID=true
+RestrictNamespaces=true
+LockPersonality=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+CapabilityBoundingSet=
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Container · Quản lý container</title>
+  <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/api.js" defer></script>
+  <script src="/js/containers.js" defer></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><img src="/img/logo.svg" alt=""> Quản lý container</div>
+  <div class="right">
+    <span class="host-chip"><span class="dot"></span><span id="host" class="mono">…</span></span>
+    <span class="user-name" id="user-name"></span>
+    <button class="btn btn-ghost btn-sm" id="btn-logout" type="button">Đăng xuất</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <div>
+      <h1>Danh sách container</h1>
+      <p>Thêm, xem, sửa, xóa container trong bãi. Dữ liệu lưu trên PostgreSQL của VPS.</p>
+    </div>
+    <button class="btn btn-primary" id="btn-add" type="button">+ Thêm container</button>
+  </div>
+
+  <section class="stats" id="stats">
+    <div class="stat"><div class="label">Tổng số</div><div class="value" id="st-tong">–</div></div>
+  </section>
+
+  <section class="panel">
+    <div class="toolbar">
+      <div class="search">
+        <img src="/img/search.svg" alt="">
+        <input id="q" type="search" maxlength="50" placeholder="Tìm số container, chủ hàng, vị trí…" aria-label="Tìm kiếm">
+      </div>
+      <select id="f-trang-thai" aria-label="Lọc trạng thái"><option value="">Mọi trạng thái</option></select>
+      <select id="f-loai" aria-label="Lọc loại"><option value="">Mọi loại</option></select>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+        <tr>
+          <th>Số container</th><th>Chủ hàng</th><th>Loại</th><th>Trạng thái</th><th>Vị trí bãi</th>
+          <th class="num">Trọng lượng (kg)</th><th>Ngày nhập</th><th class="num">Thao tác</th>
+        </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <div class="pager">
+      <span class="muted" id="pager-info"></span>
+      <div class="pages" id="pages"></div>
+    </div>
+  </section>
+</main>
+<footer class="site-foot">Lê Hữu Anh Tài · MSSV 2424802010066 · Bài cá nhân 2 – Điện toán đám mây</footer>
+
+<dialog id="dlg-form">
+  <form id="form-cont" method="dialog" novalidate>
+    <div class="dlg-head"><h3 id="dlg-title">Thêm container</h3><button class="close-x" type="button" data-close aria-label="Đóng">×</button></div>
+    <div class="dlg-body">
+      <div id="form-msg" class="hidden"></div>
+      <div class="grid-2">
+        <div class="field">
+          <label for="c-so">Số container <span class="req">*</span></label>
+          <input id="c-so" name="so_container" class="mono" required maxlength="11" placeholder="CSQU3054383"
+                 pattern="[A-Za-z]{3}[UJZujz][0-9]{7}" autocomplete="off">
+          <span class="hint">ISO 6346: 3 chữ + U/J/Z + 6 số + 1 chữ số kiểm tra.</span>
+          <span class="field-error" data-err="so_container"></span>
+        </div>
+        <div class="field">
+          <label for="c-chu-hang">Chủ hàng <span class="req">*</span></label>
+          <input id="c-chu-hang" name="chu_hang" required minlength="2" maxlength="120">
+          <span class="field-error" data-err="chu_hang"></span>
+        </div>
+        <div class="field">
+          <label for="c-loai">Loại <span class="req">*</span></label>
+          <select id="c-loai" name="loai" required></select>
+          <span class="field-error" data-err="loai"></span>
+        </div>
+        <div class="field">
+          <label for="c-trang-thai">Trạng thái <span class="req">*</span></label>
+          <select id="c-trang-thai" name="trang_thai" required></select>
+          <span class="field-error" data-err="trang_thai"></span>
+        </div>
+        <div class="field">
+          <label for="c-vi-tri">Vị trí bãi <span class="req hidden" id="vi-tri-req">*</span></label>
+          <input id="c-vi-tri" name="vi_tri_bai" class="mono" maxlength="12" placeholder="A-01-02-3"
+                 pattern="[A-Za-z]-[0-9]{2}-[0-9]{2}-[0-9]">
+          <span class="hint">Khối-Bay-Hàng-Tầng. Bắt buộc khi đang trong bãi.</span>
+          <span class="field-error" data-err="vi_tri_bai"></span>
+        </div>
+        <div class="field">
+          <label for="c-trong-luong">Trọng lượng (kg)</label>
+          <input id="c-trong-luong" name="trong_luong_kg" type="number" min="0" max="45000" step="1" inputmode="numeric">
+          <span class="field-error" data-err="trong_luong_kg"></span>
+        </div>
+        <div class="field">
+          <label for="c-ngay">Ngày nhập bãi</label>
+          <input id="c-ngay" name="ngay_nhap" type="date">
+          <span class="field-error" data-err="ngay_nhap"></span>
+        </div>
+      </div>
+      <div class="field">
+        <label for="c-ghi-chu">Ghi chú</label>
+        <textarea id="c-ghi-chu" name="ghi_chu" maxlength="500" rows="2"></textarea>
+        <span class="field-error" data-err="ghi_chu"></span>
+      </div>
+    </div>
+    <div class="dlg-foot">
+      <button class="btn btn-ghost" type="button" data-close>Hủy</button>
+      <button class="btn btn-primary" type="submit" id="btn-save">Lưu</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="dlg-delete" class="small">
+  <div class="dlg-head"><h3>Xóa container?</h3><button class="close-x" type="button" data-close aria-label="Đóng">×</button></div>
+  <div class="dlg-body"><p>Container <strong id="del-so" class="mono"></strong> sẽ bị xóa vĩnh viễn khỏi hệ thống.</p></div>
+  <div class="dlg-foot">
+    <button class="btn btn-ghost" type="button" data-close>Hủy</button>
+    <button class="btn btn-danger" type="button" id="btn-del-ok">Xóa</button>
+  </div>
+</dialog>
+
+<div id="toasts" aria-live="polite"></div>
+</body>
+</html>
